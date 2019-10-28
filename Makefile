@@ -6,7 +6,7 @@ help:
 # docker
 docker-cmd: install-package run
 
-docker-uwsgi-cmd: install-package run
+docker-uwsgi-cmd: install-package migrate run
 
 
 # install
@@ -23,6 +23,9 @@ run-uwsgi:
 
 shell:
 	@pipenv shell
+
+migrate:
+	@pipenv run python src/manage.py migrate
 
 # pre-processing
 lint:
