@@ -14,7 +14,6 @@ class Command(CommonBaseCommand):
         self._tour_directory(settings.MOUNT_PATH)
 
     def _tour_directory(self, directory: str):
-        self.log_info(f'[TOUR] {directory}')
         for _, directories, files in os.walk(directory):
             for sub_directory in directories:
                 self._tour_directory(os.path.join(directory, sub_directory))
@@ -44,5 +43,5 @@ class Command(CommonBaseCommand):
             with open(f'{filename}.bak', 'wb') as backup_file:
                 backup_file.write(original_file.read())
 
-        # with open(filename, 'w') as f:
-        #     f.write(contents.decode(chdt['encoding']))
+        with open(filename, 'w') as f:
+            f.write(contents.decode(chdt['encoding']))
