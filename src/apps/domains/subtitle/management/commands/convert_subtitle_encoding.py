@@ -2,7 +2,9 @@ import os
 
 import chardet
 from django.conf import settings
+from django.core.exceptions import ObjectDoesNotExist
 
+from apps.domains.subtitle.models import Subtitle
 from libs.django.command import CommonBaseCommand
 
 
@@ -22,27 +24,45 @@ class Command(CommonBaseCommand):
                 if filename.endswith('.srt') or filename.endswith('.smi'):
                     self._convert(os.path.join(directory, filename))
 
-    def _convert(self, filename):
+    def _convert(self, file_path):
         try:
-            with open(filename, 'rb') as f:
+            with open(file_path, 'rb') as f:
                 contents = f.read()
 
         except FileNotFoundError:
             return
 
+        try:
+            subtitle = Subtitle.objects.get(file_path=file_path)
+
+        except ObjectDoesNotExist:
+            subtitle = Subtitle()
+            subtitle.file_path = file_path
+            subtitle.save()
+
+        if subtitle.encoding_type == 'utf-8':
+            return
+
         chdt = chardet.detect(contents)
+        if subtitle.encoding_type != chdt['encoding']:
+            subtitle.encoding_type = chdt['encoding']
+            subtitle.save()
+
         if chdt['encoding'] == 'utf-8':
             return
 
         if chdt['confidence'] < 0.8:
-            self.log_info(f'[DETECT_ERROR] {filename}: {chdt["encoding"]}, {chdt["confidence"]}')
+            self.log_info(f'[DETECT_ERROR] {file_path}: {chdt["encoding"]}, {chdt["confidence"]}')
             return
 
-        self.log_info(f'[CONVERTED] {filename}')
+        self.log_info(f'[CONVERTED] {file_path}')
 
-        with open(filename, 'rb') as original_file:
-            with open(f'{filename}.bak', 'wb') as backup_file:
+        with open(file_path, 'rb') as original_file:
+            with open(f'{file_path}.bak', 'wb') as backup_file:
                 backup_file.write(original_file.read())
 
-        with open(filename, 'w') as f:
+        with open(file_path, 'w') as f:
             f.write(contents.decode(chdt['encoding']))
+
+        subtitle.encoding_type = 'utf-8'
+        subtitle.save()

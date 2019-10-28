@@ -54,6 +54,13 @@ TEMPLATES = [
     },
 ]
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_PATH, 'db.sqlite3'),
+    }
+}
+
 setup_logging()
 
 WSGI_APPLICATION = 'sites.wsgi.application'
