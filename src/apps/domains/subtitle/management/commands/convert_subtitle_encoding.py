@@ -24,8 +24,12 @@ class Command(CommonBaseCommand):
                     self._convert(os.path.join(directory, filename))
 
     def _convert(self, filename):
-        with open(filename, 'rb') as f:
-            contents = f.read()
+        try:
+            with open(filename, 'rb') as f:
+                contents = f.read()
+
+        except FileNotFoundError:
+            return
 
         chdt = chardet.detect(contents)
         if chdt['encoding'] == 'utf-8':
