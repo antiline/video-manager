@@ -4,7 +4,7 @@ from libs.log.setup import setup_logging
 
 BASE_PATH = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 ROOT_PATH = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-MOUNT_PATH = os.path.join(ROOT_PATH, 'mount')
+MOUNT_PATH = os.environ.get('MOUNT', os.path.join(ROOT_PATH, 'mount'))
 
 SECRET_KEY = '8u1$r$wobap8_hkf-ec-4u(a%!4o0m^$r)s45krel57g33try+'
 
@@ -54,6 +54,6 @@ TEMPLATES = [
     },
 ]
 
-setup_logging('')
+setup_logging()
 
 WSGI_APPLICATION = 'sites.wsgi.application'

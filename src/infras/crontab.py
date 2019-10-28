@@ -1,6 +1,7 @@
+from django.core.management import call_command
 from uwsgidecorators import cron
 
 
 @cron(0, -1, -1, -1, -1)
-def self_kill_if_update_available(signum: int):
-    pass
+def convert_subtitle_encoding(signum: int):
+    call_command('check')
