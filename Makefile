@@ -16,7 +16,7 @@ install-package:
 
 # run
 run:
-	@python src/manager.py convert_subtitle_encoding
+	@python src/manage.py convert_subtitle_encoding
 
 run-uwsgi:
 	@pipenv run uwsgi --ini /htdocs/www/docs/wsgi/uwsgi.ini --import infras.crontab
