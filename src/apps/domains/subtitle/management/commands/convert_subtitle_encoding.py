@@ -35,5 +35,10 @@ class Command(CommonBaseCommand):
             raise Exception
 
         self.log_info(f'[CONVERTED] {filename}')
-        # with open(filename + '.2', 'w') as f:
+
+        with open(filename, 'rb') as origianl_file:
+            with open(filename, 'wb') as backup_file:
+                backup_file.write(origianl_file.read())
+
+        # with open(filename, 'w') as f:
         #     f.write(contents.decode(chdt['encoding']))
