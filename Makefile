@@ -6,7 +6,7 @@ help:
 # docker
 docker-cmd: install-package run
 
-docker-uwsgi-cmd: install-package collect-static run-uwsgi
+docker-uwsgi-cmd: install-package run
 
 
 # install
@@ -16,7 +16,7 @@ install-package:
 
 # run
 run:
-	@python src/manager.py sub
+	@python src/manager.py convert_subtitle_encoding
 
 run-uwsgi:
 	@pipenv run uwsgi --ini /htdocs/www/docs/wsgi/uwsgi.ini --import infras.crontab
