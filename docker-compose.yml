@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  video-manager:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: video-manager
+    volumes:
+      - .:/htdocs/www
+    command:
+      - make docker-cmd

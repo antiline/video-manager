@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+"django" = "==2.2.6"
+uwsgi = "*"
+"python-json-logger" = "==0.1.8"
+sentry-sdk = "*"
+
+[dev-packages]
+pylint = "*"
+flake8 = "*"
+
+[requires]
+python_version = "3.7"
