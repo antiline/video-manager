@@ -27,7 +27,6 @@ class Command(CommonBaseCommand):
             contents = f.read()
 
         chdt = chardet.detect(contents)
-
         if chdt['encoding'] == 'utf-8':
             return
 
@@ -36,9 +35,9 @@ class Command(CommonBaseCommand):
 
         self.log_info(f'[CONVERTED] {filename}')
 
-        with open(filename, 'rb') as origianl_file:
-            with open(filename, 'wb') as backup_file:
-                backup_file.write(origianl_file.read())
+        with open(filename, 'rb') as original_file:
+            with open(f'{filename}.bak', 'wb') as backup_file:
+                backup_file.write(original_file.read())
 
         # with open(filename, 'w') as f:
         #     f.write(contents.decode(chdt['encoding']))
