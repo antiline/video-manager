@@ -35,7 +35,8 @@ class Command(CommonBaseCommand):
             return
 
         if chdt['confidence'] < 0.8:
-            raise Exception
+            self.log_info(f'[DETECT_ERROR] {filename}: {chdt["encoding"]}, {chdt["confidence"]}')
+            return
 
         self.log_info(f'[CONVERTED] {filename}')
 
